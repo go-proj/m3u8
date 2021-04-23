@@ -45,7 +45,7 @@ Windows PowerShell
 
 ## 下载
 
-[二进制文件](https://github.com/oopsguy/m3u8/releases)
+[二进制文件](https://coding.net/cy9/golang/m3u8/releases)
 
 ## 截屏
 

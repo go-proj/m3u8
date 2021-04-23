@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/oopsguy/m3u8/dl"
+	"coding.net/cy9/golang/m3u8/dl"
 )
 
 var (

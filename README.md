@@ -38,7 +38,7 @@ Windows PowerShell
 
 ## Download
 
-[Binary packages](https://github.com/oopsguy/m3u8/releases)
+[Binary packages](https://coding.net/cy9/golang/m3u8/releases)
 
 ## Screenshots
 
