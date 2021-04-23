@@ -19,7 +19,7 @@ var (
 func init() {
 	flag.StringVar(&url, "u", "", "M3U8 URL, required")
 	flag.StringVar(&output, "o", "", "Output folder, required")
-	flag.IntVar(&chanSize, "c", 25, "Maximum number of occurrences")
+	flag.IntVar(&chanSize, "c", 32, "Maximum number of occurrences")
 	flag.IntVar(&tsPort, "t", 0, "实际遇到过 key 和 ts 文件，端口可能跟 m3u8 文件不同")
 }
 
