@@ -51,6 +51,8 @@ func FromURL(link string) (*Result, error) {
 		case key.Method == CryptMethodAES:
 			// Request URL to extract decryption key
 			keyURL := key.URI
+			// keyURL = strings.Replace(keyURL, "ts3.510yh.cc/", "ts3.510yh.cc:4439/", -1)
+			// fmt.Println(56, keyURL)
 			keyURL = tool.ResolveURL(u, keyURL)
 			resp, err := tool.Get(keyURL)
 			if err != nil {

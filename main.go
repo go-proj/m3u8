@@ -12,12 +12,15 @@ var (
 	url      string
 	output   string
 	chanSize int
+	tsPort   int
 )
 
+// 实际遇到过 key 和 ts 文件，端口可能跟 m3u8 文件不同
 func init() {
 	flag.StringVar(&url, "u", "", "M3U8 URL, required")
-	flag.IntVar(&chanSize, "c", 25, "Maximum number of occurrences")
 	flag.StringVar(&output, "o", "", "Output folder, required")
+	flag.IntVar(&chanSize, "c", 25, "Maximum number of occurrences")
+	flag.IntVar(&tsPort, "t", 0, "实际遇到过 key 和 ts 文件，端口可能跟 m3u8 文件不同")
 }
 
 func main() {
@@ -28,6 +31,7 @@ func main() {
 			os.Exit(-1)
 		}
 	}()
+
 	if url == "" {
 		panicParameter("u")
 	}
@@ -37,6 +41,7 @@ func main() {
 	if chanSize <= 0 {
 		panic("parameter 'c' must be greater than 0")
 	}
+
 	downloader, err := dl.NewTask(output, url)
 	if err != nil {
 		panic(err)
