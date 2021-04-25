@@ -31,6 +31,7 @@ func FromURL(link string) (*Result, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	if len(m3u8.MasterPlaylist) != 0 {
 		sf := m3u8.MasterPlaylist[0]
 		return FromURL(tool.ResolveURL(u, sf.URI))

@@ -39,6 +39,7 @@ func NewTask(output string, url string) (*Downloader, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	var folder string
 	// If no output folder specified, use current directory
 	if output == "" {
