@@ -21,7 +21,7 @@ func FromURL(link string) (*Result, error) {
 		return nil, err
 	}
 	link = u.String()
-	body, err := tool.Get(link)
+	body, err := tool.Get(link, "")
 	if err != nil {
 		return nil, fmt.Errorf("request m3u8 URL failed: %s", err.Error())
 	}
@@ -55,7 +55,7 @@ func FromURL(link string) (*Result, error) {
 			// keyURL = strings.Replace(keyURL, "ts3.510yh.cc/", "ts3.510yh.cc:4439/", -1)
 			// fmt.Println(56, keyURL)
 			keyURL = tool.ResolveURL(u, keyURL)
-			resp, err := tool.Get(keyURL)
+			resp, err := tool.Get(keyURL, "")
 			if err != nil {
 				return nil, fmt.Errorf("extract key failed: %s", err.Error())
 			}

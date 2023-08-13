@@ -27,6 +27,7 @@ type Downloader struct {
 	queue    []int
 	folder   string
 	tsFolder string
+	referer  string
 	finish   int32
 	segLen   int
 
@@ -34,7 +35,7 @@ type Downloader struct {
 }
 
 // NewTask returns a Task instance
-func NewTask(output string, url string) (*Downloader, error) {
+func NewTask(output string, url string, referer string) (*Downloader, error) {
 	result, err := parse.FromURL(url)
 	if err != nil {
 		return nil, err
@@ -58,10 +59,12 @@ func NewTask(output string, url string) (*Downloader, error) {
 	if err := os.MkdirAll(tsFolder, os.ModePerm); err != nil {
 		return nil, fmt.Errorf("create ts folder '[%s]' failed: %s", tsFolder, err.Error())
 	}
+
 	d := &Downloader{
 		folder:   folder,
 		tsFolder: tsFolder,
 		result:   result,
+		referer:  referer,
 	}
 	d.segLen = len(result.M3u8.Segments)
 	d.queue = genSlice(d.segLen)
@@ -105,7 +108,7 @@ func (d *Downloader) Start(concurrency int) error {
 func (d *Downloader) download(segIndex int) error {
 	tsFilename := tsFilename(segIndex)
 	tsUrl := d.tsURL(segIndex)
-	b, e := tool.Get(tsUrl)
+	b, e := tool.Get(tsUrl, d.referer)
 	if e != nil {
 		return fmt.Errorf("request %s, %s", tsUrl, e.Error())
 	}

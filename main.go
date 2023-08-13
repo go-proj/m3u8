@@ -11,6 +11,7 @@ import (
 var (
 	url      string
 	output   string
+	referer  string
 	chanSize int
 	tsPort   int
 )
@@ -20,7 +21,9 @@ func init() {
 	flag.StringVar(&url, "u", "", "M3U8 URL, required")
 	flag.StringVar(&output, "o", "", "Output folder, required")
 	flag.IntVar(&chanSize, "c", 32, "Maximum number of occurrences")
+
 	flag.IntVar(&tsPort, "t", 0, "实际遇到过 key 和 ts 文件，端口可能跟 m3u8 文件不同")
+	flag.StringVar(&referer, "r", "", "部分 ts 文件的请求，需要带上 referer")
 }
 
 func main() {
@@ -42,7 +45,7 @@ func main() {
 		panic("parameter 'c' must be greater than 0")
 	}
 
-	downloader, err := dl.NewTask(output, url)
+	downloader, err := dl.NewTask(output, url, referer)
 	if err != nil {
 		panic(err)
 	}

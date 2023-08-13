@@ -29,11 +29,10 @@ PID := /tmp/.$(PROJECTNAME).pid
 # Make is verbose in Linux. Make it silent.
 # MAKEFLAGS += --silent
 
-
 build: clean
-	CGO_ENABLED=0 GOOS=linux   GOARCH=amd64 go build -a -installsuffix cgo -ldflags "$(LDFLAGS)" -o $(CURDIR)/bin/$(NAME)-amd64-$(VERSION)
+#	CGO_ENABLED=0 GOOS=linux   GOARCH=amd64 go build -a -installsuffix cgo -ldflags "$(LDFLAGS)" -o $(CURDIR)/bin/$(NAME)-amd64-$(VERSION)
 	CGO_ENABLED=0 GOOS=darwin  GOARCH=amd64 go build -a -installsuffix cgo -ldflags "$(LDFLAGS)" -o $(CURDIR)/bin/$(NAME)-macos-$(VERSION)
-	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -installsuffix cgo -ldflags "$(LDFLAGS)" -o $(CURDIR)/bin/$(NAME)-win-$(VERSION).exe
+#	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -installsuffix cgo -ldflags "$(LDFLAGS)" -o $(CURDIR)/bin/$(NAME)-win-$(VERSION).exe
 
 ## install: Install missing dependencies. Runs `go get` internally. e.g; make install get=github.com/foo/bar
 install: go-get

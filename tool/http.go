@@ -7,17 +7,18 @@ import (
 	"time"
 )
 
-func Get(url string) (io.ReadCloser, error) {
+func Get(url string, referer string) (io.ReadCloser, error) {
 	c := http.Client{
-		Timeout: time.Duration(60) * time.Second,
+		Timeout: time.Duration(3) * time.Second, // timeout
 	}
-	// if strings.HasSuffix(url, ".ts") {
-	// 	url = strings.Replace(url, "ts3.510yh.cc/", "ts3.510yh.cc:4439/", -1)
-	// 	fmt.Println("18", url)
-	// } else {
-	// 	fmt.Println("21", url)
-	// }
-	resp, err := c.Get(url)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/117.0")
+	req.Header.Add("Referer", referer)
+	resp, err := c.Do(req)
 	if err != nil {
 		return nil, err
 	}
