@@ -18,6 +18,7 @@ const (
 	tsExt            = ".ts"
 	tsFolderName     = "ts"
 	mergeTSFilename  = "main.ts"
+	mergeMP4Filename = "main.mp4"
 	tsTempFileSuffix = "_tmp"
 	progressWidth    = 40
 )
@@ -224,8 +225,7 @@ func (d *Downloader) merge() error {
 			continue
 		}
 		mergedCount++
-		tool.DrawProgressBar("merge",
-			float32(mergedCount)/float32(d.segLen), progressWidth)
+		tool.DrawProgressBar("merge", float32(mergedCount)/float32(d.segLen), progressWidth)
 	}
 	_ = writer.Flush()
 	// Remove `ts` folder
@@ -233,9 +233,14 @@ func (d *Downloader) merge() error {
 
 	if mergedCount != d.segLen {
 		fmt.Printf("[warning] \n%d files merge failed", d.segLen-mergedCount)
+	} else { // TODO convert ts to mp4
+		//cmd := fmt.Sprintf("ffmpeg -i %s -map 0 -c copy %s", mergeTSFilename, mergeMP4Filename)
+		//err := exec.Command("sh", "-c", cmd).Run()
+		//return fmt.Errorf("convert TS file failed：%s", err.Error())
 	}
 
 	fmt.Printf("\n[output] %s\n", mFilePath)
+	fmt.Printf("\n[todo] ffmpeg -i %s -map 0 -c copy %s\n", mergeTSFilename, mergeMP4Filename)
 
 	return nil
 }
