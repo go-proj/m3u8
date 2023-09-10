@@ -85,6 +85,9 @@ func parse(reader io.Reader) (*M3u8, error) {
 		extInf  bool
 		extByte bool
 	)
+	if count == 0 {
+		return nil, errors.New("empty playlist file")
+	}
 
 	for ; i < count; i++ {
 		line := strings.TrimSpace(lines[i])

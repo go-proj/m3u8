@@ -24,6 +24,8 @@ func FromURL(link string) (*Result, error) {
 	body, err := tool.Get(link, "")
 	if err != nil {
 		return nil, fmt.Errorf("request m3u8 URL failed: %s", err.Error())
+	} else {
+		println(fmt.Sprintf("read link %s", link))
 	}
 	//noinspection GoUnhandledErrorResult
 	defer body.Close()
