@@ -75,6 +75,7 @@ func NewTask(output string, url string, referer string) (*Downloader, error) {
 // Start runs downloader
 func (d *Downloader) Start(concurrency int) error {
 	var wg sync.WaitGroup
+
 	// struct{} zero size
 	limitChan := make(chan struct{}, concurrency)
 	for {
@@ -85,6 +86,7 @@ func (d *Downloader) Start(concurrency int) error {
 			}
 			continue
 		}
+
 		wg.Add(1)
 		go func(idx int) {
 			defer wg.Done()
@@ -100,6 +102,7 @@ func (d *Downloader) Start(concurrency int) error {
 		limitChan <- struct{}{}
 	}
 	wg.Wait()
+
 	if err := d.merge(); err != nil {
 		return err
 	}
@@ -185,9 +188,11 @@ func (d *Downloader) next() (segIndex int, end bool, err error) {
 func (d *Downloader) back(segIndex int) error {
 	d.lock.Lock()
 	defer d.lock.Unlock()
+
 	if sf := d.result.M3u8.Segments[segIndex]; sf == nil {
 		return fmt.Errorf("invalid segment index: %d", segIndex)
 	}
+
 	d.queue = append(d.queue, segIndex)
 	return nil
 }

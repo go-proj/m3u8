@@ -6,13 +6,22 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 	"time"
 )
 
 func Get(url string, referer string) (io.ReadCloser, error) {
-	c := http.Client{
-		Timeout:   time.Duration(9) * time.Second, // timeout
-		Transport: GetProxyTr(),
+	var c http.Client
+	tr := GetProxyTr(url)
+	if tr != nil {
+		c = http.Client{
+			Timeout:   time.Duration(15) * time.Second, // timeout
+			Transport: GetProxyTr(url),
+		}
+	} else {
+		c = http.Client{
+			Timeout: time.Duration(15) * time.Second, // timeout
+		}
 	}
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -21,7 +30,9 @@ func Get(url string, referer string) (io.ReadCloser, error) {
 	}
 
 	req.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/117.0")
-	req.Header.Add("Referer", referer)
+	if referer != "" {
+		req.Header.Add("Referer", referer)
+	}
 
 	var resp *http.Response
 	for i := 0; i < 3; i++ {
@@ -41,7 +52,10 @@ func Get(url string, referer string) (io.ReadCloser, error) {
 	return resp.Body, nil
 }
 
-func GetProxyTr() (tr *http.Transport) {
+func GetProxyTr(resUrl string) (tr *http.Transport) {
+	if strings.Contains(resUrl, "127.0.0.1") || strings.Contains(resUrl, "127.0.0.1") {
+		return nil
+	}
 	proxyUrl := os.Getenv("http_proxy")
 	if proxyUrl == "" {
 		return nil

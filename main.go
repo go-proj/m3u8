@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"runtime"
 
 	"coding.net/cy9/golang/m3u8/dl"
 )
@@ -30,7 +31,9 @@ func main() {
 	flag.Parse()
 	defer func() {
 		if r := recover(); r != nil {
-			fmt.Println("[error]", r)
+			stack := make([]byte, 1024)
+			runtime.Stack(stack, true)
+			fmt.Println("panic:", r, "\nstack:", string(stack))
 			os.Exit(-1)
 		}
 	}()
